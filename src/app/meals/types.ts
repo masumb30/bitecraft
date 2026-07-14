@@ -10,3 +10,4 @@ export interface Meal {
   deliveryDaysFromNow: number; // Soonest sorting index helper
   image: string;
 }
+

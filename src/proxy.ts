@@ -18,7 +18,7 @@ export async function proxy(request: NextRequest) {
     }
 
     // Ensure we have a clean lowercase string for role comparison
-    const userRole = session.user.role?.toLowerCase() || 'tenant'; 
+    const userRole = session.user.role?.toLowerCase() || 'user'; 
 
     // 2. Fix for the Login Redirect Preference Loop:
     // If a user just logged in and lands on a generic dashboard path or an explicit wrong-role path,
@@ -35,13 +35,13 @@ export async function proxy(request: NextRequest) {
             return NextResponse.redirect(new URL(`/dashboard/${userRole}`, request.url));
         }
 
-        // Guard Owner Dashboard: Only owners allowed (Admins should go to /dashboard/admin instead of squatting here)
-        if (pathname.startsWith("/dashboard/owner") && userRole !== "owner") {
+        // Guard chef Dashboard: Only chefs allowed (Admins should go to /dashboard/admin instead of squatting here)
+        if (pathname.startsWith("/dashboard/chef") && userRole !== "chef") {
             return NextResponse.redirect(new URL(`/dashboard/${userRole}`, request.url));
         }
 
-        // Guard Tenant Dashboard: Only tenants allowed
-        if (pathname.startsWith("/dashboard/tenant") && userRole !== "tenant") {
+        // Guard user Dashboard: Only users allowed
+        if (pathname.startsWith("/dashboard/user") && userRole !== "user") {
             return NextResponse.redirect(new URL(`/dashboard/${userRole}`, request.url));
         }
     }

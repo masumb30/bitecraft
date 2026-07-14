@@ -23,7 +23,7 @@ export const auth = betterAuth({
         additionalFields: {
             role: {
                 type: "string",
-                default: "tenant",
+                default: "user",
             }
         }
     },
@@ -34,8 +34,8 @@ export const auth = betterAuth({
                     return {
                         data: {
                             ...user,
-                            // Fallback to "tenant" if a role isn't explicitly provided (like during OAuth)
-                            role: user.role || "tenant",
+                            // Fallback to "user" if a role isn't explicitly provided (like during OAuth)
+                            role: user.role || "user",
                         },
                     };
                 },

@@ -1,4 +1,5 @@
 'use client'
+import { authClient } from '@/lib/auth-client';
 import React, { useState, useEffect, useCallback } from 'react';
 
 // ----------------------------------------------------------------------
@@ -46,21 +47,22 @@ const classNames = (...classes: (string | boolean | undefined)[]) =>
 // ----------------------------------------------------------------------
 // HEADER COMPONENT
 // ----------------------------------------------------------------------
-const NewHeader: React.FC = ({
-  
-  
-}) => {
+const NewHeader: React.FC = ({}) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const middleLinks = [
     { name: 'Browse Meals', href: 'meals' },
     { name: 'Find Chefs', href: '#chefs' },
     { name: 'How It Works', href: '#how-it-works' },
   ];
-  const user = {
-    name: 'Masum',
-    email: 'masum@example.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
-  }
+
+  const {data:user} = authClient.useSession();
+  console.log("Session Data:", user);
+
+  // const user = {
+  //   name: 'Masum',
+  //   email: 'masum@example.com',
+  //   avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
+  // }
 
   // Lock body scroll when sidebar is open on mobile
   useLockBodyScroll(sidebarOpen);
@@ -90,7 +92,7 @@ const NewHeader: React.FC = ({
       <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-slate-50/95 dark:bg-slate-950/95 backdrop-blur-sm">
         <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            
+
             {/* Left Section: Logo */}
             <div className="flex-shrink-0">
               <a
@@ -107,7 +109,9 @@ const NewHeader: React.FC = ({
                 >
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
                 </svg>
-                <span>MealPrep</span>
+                <span>
+                  Bite<span className="text-emerald-600 dark:text-emerald-500">craft</span>
+                </span>
               </a>
             </div>
 

@@ -6,8 +6,8 @@ import { authClient } from '@/lib/auth-client';
 import { toast, ToastContainer } from 'react-toastify';
 
 const users = [
-  {email: "tenant@gmail.com", password: "12345678"},
-  {email: "owner@gmail.com", password: "12345678"},
+  {email: "user@gmail.com", password: "12345678"},
+  {email: "chef@gmail.com", password: "12345678"},
   {email: "admin@gmail.com", password: "12345678"},
 ]
 
@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     // Implement Google OAuth trigger here
-    // Remember to set default user role as "Tenant" on backend for social login
+    // Remember to set default user role as "user" on backend for social login
     console.log('Google login clicked');
     const data = await authClient.signIn.social({
       provider: 'google'
@@ -107,8 +107,8 @@ export default function LoginPage() {
         {/* auto fill some users */}
         <div className="flex justify-between mb-4 gap-2">
           <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[2])}>Admin</button>
-          <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[1])}>Owner</button>
-          <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[0])}>Tenant</button>
+          <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[1])}>chef</button>
+          <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[0])}>user</button>
         </div>
 
         {/* Login Form */}

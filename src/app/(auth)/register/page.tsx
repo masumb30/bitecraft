@@ -16,14 +16,14 @@ export default function SignupPage() {
         email: 'john.doe@example.com',
         photo: 'https://example.com/image.png',
         password: 'password1234',
-        role: 'owner'
+        role: 'chef'
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleRoleChange = (newRole: 'owner' | 'tenant') => {
+    const handleRoleChange = (newRole: 'chef' | 'user') => {
         if (isLoading) return; // Prevent role change during submission
         setFormData({ ...formData, role: newRole });
     };
@@ -156,31 +156,31 @@ export default function SignupPage() {
                         <button
                             type="button"
                             disabled={isLoading}
-                            onClick={() => handleRoleChange('owner')}
+                            onClick={() => handleRoleChange('chef')}
                             className={`flex-1 rounded-lg py-2 text-sm font-medium transition-all duration-200 ${
                                 isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
                             } ${
-                                formData.role === 'owner'
+                                formData.role === 'chef'
                                     ? 'bg-indigo-600 text-white shadow-md'
                                     : 'text-gray-400 hover:text-gray-200'
                             }`}
                         >
-                            Owner
+                            chef
                         </button>
 
                         <button
                             type="button"
                             disabled={isLoading}
-                            onClick={() => handleRoleChange('tenant')}
+                            onClick={() => handleRoleChange('user')}
                             className={`flex-1 rounded-lg py-2 text-sm font-medium transition-all duration-200 ${
                                 isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
                             } ${
-                                formData.role === 'tenant'
+                                formData.role === 'user'
                                     ? 'bg-indigo-600 text-white shadow-md'
                                     : 'text-gray-400 hover:text-gray-200'
                             }`}
                         >
-                            Tenant
+                            user
                         </button>
                     </div>
 
