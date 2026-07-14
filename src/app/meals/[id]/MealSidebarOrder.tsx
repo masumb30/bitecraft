@@ -25,7 +25,7 @@ export default function MealSidebarOrder({ meal, timesSold = 428 }: MealSidebarO
       <div>
         <span className="text-xs text-slate-400 block">Single Portion</span>
         <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">${meal.price.toFixed(2)}</span>
+          {/* <span className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">${meal.price.toFixed(2)}</span> */}
         </div>
       </div>
 

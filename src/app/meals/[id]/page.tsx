@@ -8,21 +8,24 @@ import MealCommentForm from './MealCommentForm';
 
 
 
-// Reference Dummy Set for Server Parsing Lookup
-const DATA_SOURCE: Meal[] = [
-    { id: '1', title: 'Chimichurri Flank Steak', chefName: 'Marcus Glass', description: 'Tender wood-fired flank steak slices crowned with raw garlic-herb chimichurri sauce. Served with loaded cauliflower mash.', price: 18.50, rating: 4.89, dietaryTag: 'Keto', neighborhood: 'The Heights', deliveryDaysFromNow: 1, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80' },
-];
+// // Reference Dummy Set for Server Parsing Lookup
+// const DATA_SOURCE: Meal[] = [
+//     { id: '1', title: 'Chimichurri Flank Steak', chefName: 'Marcus Glass', description: 'Tender wood-fired flank steak slices crowned with raw garlic-herb chimichurri sauce. Served with loaded cauliflower mash.', price: 18.50, rating: 4.89, dietaryTag: 'Keto', neighborhood: 'The Heights', deliveryDaysFromNow: 1, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80' },
+// ];
 
-interface PageProps {
-    params: { id: string };
-}
+// interface PageProps {
+//     params: { id: string };
+// }
 
-export default function MealDetailPage() {
-    // Find specific structural asset match
-    const selectedMeal = DATA_SOURCE[0];
+export default async function MealDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const {id} = await params;
+    const data = await fetch(`http://localhost:3000/api/meals/${id}`, {
+        next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
+    });
+    const mealData: Meal = await data.json();
+    console.log('meal details: ', mealData)
 
-    // Return standard next clean 404 block if dynamic lookup misses
-    if (!selectedMeal) {
+    if (!mealData) {
         notFound();
     }
 
@@ -43,22 +46,22 @@ export default function MealDetailPage() {
 
                     {/* Main Column Side (Details & Review Feed logs) */}
                     <div className="lg:col-span-8 space-y-6">
-                        <MealHero meal={selectedMeal} />
+                        <MealHero meal={mealData} />
                     </div>
 
                     {/* Sticky Ordering Side Deck */}
                     <div className="lg:col-span-4">
 
-                        <MealSidebarOrder meal={selectedMeal} timesSold={482} />
+                        <MealSidebarOrder meal={mealData} timesSold={482} />
                     </div>
 
                 </div>
 
-<div className="mt-2">
+                <div className="mt-2">
 
-                <MealCommentForm />
-                <MealReviews />
-</div>
+                    <MealCommentForm />
+                    <MealReviews />
+                </div>
 
             </div>
         </main>
