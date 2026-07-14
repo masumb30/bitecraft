@@ -26,9 +26,7 @@ export default function MealHero({ meal }: MealHeroProps) {
       {/* Header and Branding Attribution */}
       <div>
         <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-          <span>Prepared by <span className="font-semibold text-slate-900 dark:text-slate-200">{meal.chefName}</span></span>
-          <span>•</span>
-          <span>📍 {meal.neighborhood}</span>
+          <span>Prepared by <span className="font-semibold text-slate-900 dark:text-slate-200">{meal.chefInfo.name}</span></span>
         </div>
         <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
           {meal.title}

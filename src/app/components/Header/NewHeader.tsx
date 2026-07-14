@@ -58,14 +58,10 @@ const NewHeader: React.FC = ({}) => {
 
   const {data:user} = authClient.useSession();
   console.log("Session Data:", user);
-
-  // const user = {
-  //   name: 'Masum',
-  //   email: 'masum@example.com',
-  //   avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
-  // }
-
-  // Lock body scroll when sidebar is open on mobile
+  const [dropDown, setDropDown] = useState(false);
+  const handleDropDown = () => {
+    setDropDown(!dropDown);
+  }
   useLockBodyScroll(sidebarOpen);
 
   // Close sidebar on route change (simulated with hash links)
@@ -140,7 +136,13 @@ const NewHeader: React.FC = ({}) => {
             <div className="hidden lg:flex lg:items-center lg:gap-4">
               {user ? (
                 // ----- LOGGED IN STATE: Avatar + Name -----
-                <div className="flex items-center gap-3">
+                <div onClick={handleDropDown} className="flex items-center gap-3  relative">
+                  <div className={`absolute top-full left-0 ${dropDown ? 'block ' : 'hidden'} w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg mt-2 z-50`}>
+                    <button onClick={() => authClient.signOut()} className="px-4 py-2 text-sm text-red-700 dark:text-red-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg w-full text-left cursor-pointer">
+                      Log out
+                    </button>
+                  </div>
+
                   <button
                     className={classNames(
                       'flex items-center gap-2 rounded-xl p-1.5',
@@ -404,6 +406,24 @@ const NewHeader: React.FC = ({}) => {
                 {link.name}
               </a>
             ))}
+
+            {
+              user && (
+                <button
+                  className={classNames(
+                    'block w-full text-left cursor-pointer rounded-xl px-4 py-3 text-base font-medium',
+                    'text-red-700 dark:text-red-300',
+                    'hover:bg-slate-50 dark:hover:bg-slate-800',
+                    'hover:text-red-600 dark:hover:text-red-500',
+                    transitionClasses,
+                    focusClasses
+                  )}
+                  onClick={()=> authClient.signOut()}
+                >
+                  Log out
+                </button>
+              )
+            }
           </nav>
         </div>
 

@@ -35,7 +35,7 @@ export default async function MealDetailPage({ params }: { params: Promise<{ id:
 
                 {/* Standard Breadcrumb Back Navigation link Link */}
                 <a
-                    href="/explore"
+                    href="/meals"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-6 group"
                 >
                     <span>←</span> <span className="group-hover:underline">Back to Marketplace Marketplace</span>

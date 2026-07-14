@@ -1,7 +1,15 @@
 export interface Meal {
   id: string;
   title: string;
-  chefName: string;
+  chef: {
+    name:string
+  };
+  chefInfo: {
+    _id: string;
+    name: string;
+    avatar: string;
+    rating: number;
+  };
   description: string;
   price: number;
   rating: number;
