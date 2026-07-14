@@ -6,6 +6,10 @@ import HowItWorks from "./components/HowItWorks";
 import DietaryCategories from "./components/DietaryCategories";
 import PlatformStatistics from "./components/PlatformStatistics";
 import FeaturedChefs from "./components/FeaturedChefs";
+import ClientTestimonials from "./components/ClientTestimonials";
+import LatestInsights from "./components/LatestInsights";
+import NewsletterCTA from "./components/NewsLetter";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -17,6 +21,10 @@ export default function Home() {
     <DietaryCategories />
     <PlatformStatistics />
     <FeaturedChefs />
+    <ClientTestimonials />
+    <LatestInsights />
+    <NewsletterCTA />
+    <Footer />
     </>
   );
 }
