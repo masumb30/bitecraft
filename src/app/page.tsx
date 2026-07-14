@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
     {/* <Header/> */}
-    <NewHeader/>
+    {/* <NewHeader/> */}
     <HeroBanner/>
     <HowItWorks />
     <DietaryCategories />
@@ -24,7 +24,7 @@ export default function Home() {
     <ClientTestimonials />
     <LatestInsights />
     <NewsletterCTA />
-    <Footer />
+    {/* <Footer /> */}
     </>
   );
 }

@@ -52,7 +52,7 @@ const NewHeader: React.FC = ({
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const middleLinks = [
-    { name: 'Browse Meals', href: '#meals' },
+    { name: 'Browse Meals', href: 'meals' },
     { name: 'Find Chefs', href: '#chefs' },
     { name: 'How It Works', href: '#how-it-works' },
   ];
