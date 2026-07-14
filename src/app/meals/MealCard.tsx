@@ -65,7 +65,7 @@ export default function MealCard({ meal }: MealCardProps) {
           </div>
           
           <a
-            href={`/explore/${meal.id}`}
+            href={`/meals/${meal.id}`}
             className="rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white transition-all duration-200 hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:bg-emerald-500"
           >
             View Details
