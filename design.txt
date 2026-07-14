@@ -1,0 +1,28 @@
+[DESIGN SYSTEM CONTEXT - MANDATORY]
+You are generating a UI component for a premium, community-based meal-prep and local chef marketplace website. 
+Strictly adhere to the following design system, pure Tailwind CSS classes, and light/dark mode requirements. Do not use external component libraries.
+
+1. COLOR PALETTE (Strict adherence required; always provide dark: variants):
+   - Primary (Freshness/Trust): Tailwind Green (Light: emerald-600 | Dark: emerald-500)
+   - Secondary (Culinary/Appetizing Accent): Tailwind Amber (Light: amber-500 | Dark: amber-400)
+   - Backgrounds: 
+     * Light Mode: bg-slate-50 (Main) | bg-white (Cards/Containers)
+     * Dark Mode: bg-slate-950 (Main) | bg-slate-900 (Cards/Containers)
+   - Typography & Borders:
+     * Light Mode: text-slate-900 (Headers) | text-slate-600 (Body) | border-slate-200
+     * Dark Mode: text-slate-50 (Headers) | text-slate-400 (Body) | border-slate-800
+
+2. SPACING & LAYOUT:
+   - Use strict mobile-first responsive design (sm:, md:, lg:).
+   - Component padding: px-4 py-3 for small items; p-6 for cards; p-8 to p-12 for large sections.
+   - Stacked spacing: space-y-4 or gap-4 for standard grids; space-y-6 for section blocks.
+
+3. ESTHETICS & SHAPES:
+   - Corners: Use `rounded-2xl` for main cards/containers, `rounded-xl` for buttons/inputs to give a friendly, modern, professional culinary vibe.
+   - Interactive: All buttons/links must have `transition-all duration-200` with subtle hover states (e.g., hover:scale-[1.01] or brightness changes).
+   - Focus states: Always include explicit focus rings for accessibility (`focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2`).
+
+4. CODE OUTPUT RULES:
+   - Return clean, semantic, modern HTML/JSX using ONLY pure Tailwind CSS utility classes.
+   - Ensure complete light and dark mode compliance using the `dark:` modifier on every layout, background, text, and border class.
+--------------------------------------------------

@@ -31,7 +31,7 @@ const useLockBodyScroll = (isLocked: boolean) => {
 // Component Props
 // ----------------------------------------------------------------------
 interface HeaderProps {
-  // For demonstration, we simulate a logged-in user.
+  // For demonstration, we simulate a logged-in user?.user?.
   // Pass 'null' to show the login/register buttons.
   user: User | null;
   // Navigation links passed from parent for flexibility
@@ -49,6 +49,7 @@ const classNames = (...classes: (string | boolean | undefined)[]) =>
 // ----------------------------------------------------------------------
 const NewHeader: React.FC = ({}) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
   const middleLinks = [
     { name: 'Browse Meals', href: 'meals' },
     { name: 'Find Chefs', href: '#chefs' },
@@ -152,14 +153,14 @@ const NewHeader: React.FC = ({}) => {
                   >
                     {/* Avatar with fallback initials */}
                     <div className="h-8 w-8 rounded-full bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
-                      {user.avatarUrl ? (
+                      {user?.user?.avatarUrl ? (
                         <img
-                          src={user.avatarUrl}
-                          alt={user.name}
+                          src={user?.user?.avatarUrl}
+                          alt={user?.user?.name}
                           className="h-8 w-8 rounded-full object-cover"
                         />
                       ) : (
-                        user.name
+                        user?.user?.name
                           .split(' ')
                           .map((n) => n[0])
                           .join('')
@@ -168,7 +169,7 @@ const NewHeader: React.FC = ({}) => {
                       )}
                     </div>
                     <span className="text-sm font-medium hidden xl:block">
-                      {user.name}
+                      {user?.user?.name}
                     </span>
                     {/* Chevron Down Indicator */}
                     <svg
@@ -323,14 +324,14 @@ const NewHeader: React.FC = ({}) => {
           {user ? (
             <div className="flex items-center gap-4 rounded-2xl bg-slate-50 dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700">
               <div className="h-12 w-12 rounded-full bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center text-white text-lg font-semibold shadow-sm flex-shrink-0">
-                {user.avatarUrl ? (
+                {user?.user?.avatarUrl ? (
                   <img
-                    src={user.avatarUrl}
-                    alt={user.name}
+                    src={user?.user?.avatarUrl}
+                    alt={user?.user?.name}
                     className="h-12 w-12 rounded-full object-cover"
                   />
                 ) : (
-                  user.name
+                  user?.user?.name
                     .split(' ')
                     .map((n) => n[0])
                     .join('')
@@ -340,10 +341,10 @@ const NewHeader: React.FC = ({}) => {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">
-                  {user.name}
+                  {user?.user?.name}
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                  {user.email}
+                  {user?.user?.email}
                 </p>
               </div>
             </div>

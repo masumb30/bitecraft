@@ -85,7 +85,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     // 2. Format the payload to strictly align with MealDB interface constraints
     const newMeal: MealDB = {
       // Convert the string representation of ID coming from the client into a MongoDB ObjectId
-      chefId: new ObjectId(chefId as string), 
+      chefId: new ObjectId(chefId as string) || new ObjectId(), 
       title: title as string,
       description: (description || '') as string,
       price: Number(price),
