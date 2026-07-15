@@ -5,20 +5,16 @@ import MealHero from './MealHero';
 import MealReviews from './MealReview';
 import MealSidebarOrder from './MealSidebarOrder';
 import MealCommentForm from './MealCommentForm';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
-
-
-// // Reference Dummy Set for Server Parsing Lookup
-// const DATA_SOURCE: Meal[] = [
-//     { id: '1', title: 'Chimichurri Flank Steak', chefName: 'Marcus Glass', description: 'Tender wood-fired flank steak slices crowned with raw garlic-herb chimichurri sauce. Served with loaded cauliflower mash.', price: 18.50, rating: 4.89, dietaryTag: 'Keto', neighborhood: 'The Heights', deliveryDaysFromNow: 1, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80' },
-// ];
-
-// interface PageProps {
-//     params: { id: string };
-// }
 
 export default async function MealDetailPage({ params }: { params: Promise<{ id: string }> }) {
-    const {id} = await params;
+    const userData = await auth.api.getSession({
+        headers: await headers()
+    });
+    const user = await userData?.user;
+    const { id } = await params;
     const data = await fetch(`http://localhost:3000/api/meals/${id}`, {
         next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
     });
@@ -51,10 +47,20 @@ export default async function MealDetailPage({ params }: { params: Promise<{ id:
                     </div>
 
                     {/* Sticky Ordering Side Deck */}
-                    <div className="lg:col-span-4">
+                    {/* only render if user role is 'user' */}
 
-                        <MealSidebarOrder meal={mealData} timesSold={482} />
-                    </div>
+                    {
+                        user?.role === 'user' ?
+
+                            <div className="lg:col-span-4">
+
+                                <MealSidebarOrder meal={mealData} timesSold={482} />
+                            </div>
+                            :
+                            <div className="lg:col-span-4 flex items-center justify-center bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 p-6 rounded-lg">
+                                <p>Orders are for users only, log in as user</p>
+                            </div>
+                    }
 
                 </div>
 
