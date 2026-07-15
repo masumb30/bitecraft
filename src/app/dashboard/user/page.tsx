@@ -1,19 +1,33 @@
-'use client'
+
+import { OrderInterface } from '@/app/types/type';
+import { auth } from '@/lib/auth';
 import { authClient } from '@/lib/auth-client';
+import { headers } from 'next/headers';
 import React from 'react';
 
-export default function BuyerDashboard() {
-  const {data} = authClient.useSession();
-  const user = data?.user;
+export default async function BuyerDashboard() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+  const user = session?.user;
+
+  const orders = await fetch(`http://localhost:3000/api/orders/user?userId=${user?.id}`, {
+    next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
+  });
+  const ordersData = await orders.json();
+
+
+
+  console.log('Fetched Orders Data:', ordersData);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-600 dark:bg-slate-950 dark:text-slate-400 transition-colors duration-200">
-      
-      
+
+
 
       {/* MAIN CONTENT */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
-        
+
         {/* WELCOME BANNER */}
         <div className="rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 dark:from-emerald-950 dark:to-slate-900 p-6 md:p-8 text-white shadow-sm">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-2">
@@ -34,7 +48,7 @@ export default function BuyerDashboard() {
 
         {/* BOTTOM LAYOUT SECTION */}
         <div className="grid gap-8 lg:grid-cols-3">
-          
+
           {/* ORDERS COLUMN */}
           <div className="lg:col-span-2 space-y-6">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
@@ -45,10 +59,64 @@ export default function BuyerDashboard() {
                 </button>
               </div>
 
-              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              {/* <div className="divide-y divide-slate-100 dark:divide-slate-800">
                 <BuyerOrderRow chef="Chef Giovanni" dish="Wood-Fired Lasagna Bolognese" status="In Transit" statusColor="text-amber-500" date="Today, 6:00 PM" price="$28.00" />
                 <BuyerOrderRow chef="Auntie Kitchen" dish="Authentic Thai Green Curry" status="Completed" statusColor="text-emerald-600 dark:text-emerald-400" date="Oct 24, 2026" price="$22.50" />
+              </div> */}
+              {
+                ordersData.length > 0 ? (
+                  ordersData.map((order: OrderInterface) => (
+                    <div key={(order as any)._id} className="p-4 bg-white border border-slate-200 rounded-2xl dark:bg-slate-900 dark:border-slate-800 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition-all duration-200 hover:scale-[1.01]">
+                      <div className="flex gap-3 items-start sm:items-center w-full sm:w-auto">
+                        <img
+                          src={order.mealImage}
+                          alt={order.title}
+                          className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover flex-shrink-0"
+                        />
+                        <div className="space-y-1 min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="font-bold text-slate-900 dark:text-slate-50 text-sm sm:text-base truncate max-w-[220px] sm:max-w-md">
+                              {order.title}
+                            </h3>
+                            <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 capitalize">
+                              {order.status}
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1.5 truncate">
+                            <img src={order.chefAvatar} alt="" className="w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-800" />
+                            Kitchen: <span className="font-medium text-slate-600 dark:text-slate-400">{order.chefName}</span>
+                          </p>
+                          <p className="text-xs text-slate-500 line-clamp-1 sm:line-clamp-2 pr-2 hidden sm:block">
+                            {order.mealDescription}
+                          </p>
+                          <p className="text-[10px] text-slate-400">
+                            Ordered: {new Date(order.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex sm:flex-col justify-between sm:justify-center items-center sm:items-end w-full sm:w-auto pt-3 sm:pt-0 border-t border-slate-100 dark:border-slate-800 sm:border-t-0 font-semibold text-slate-900 dark:text-slate-50 text-sm sm:text-base gap-1 flex-shrink-0">
+                        <span className="text-xs text-slate-400 font-normal sm:hidden">Total Price</span>
+                        <div className="text-right">
+                          <div>${order.totalPrice.toFixed(2)}</div>
+                          <div className="text-[10px] text-slate-400 font-normal mt-0.5">Qty: {order.quantity} (${order.priceSnap} each)</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center dark:border-slate-800 dark:bg-slate-900">
+                <span className="text-3xl block mb-3">🍽️</span>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-50">No orders found</h3>
+                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto">
+                  Try modifying your price slider, text entries or choosing another neighborhood filter setup.
+                </p>
               </div>
+                )
+              }
+              
+              
+              
             </div>
           </div>
 
@@ -56,7 +124,7 @@ export default function BuyerDashboard() {
           <div className="space-y-6">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
               <h2 className="text-lg font-bold text-slate-900 dark:text-slate-50 mb-4">Trending Near You</h2>
-              
+
               <div className="space-y-4">
                 <div className="flex gap-3 items-center group cursor-pointer">
                   <div className="h-12 w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center text-xl">🌮</div>
@@ -72,9 +140,9 @@ export default function BuyerDashboard() {
                     <p className="text-xs text-slate-500">2.3 miles away • 4.8 ★</p>
                   </div>
                 </div>
-                <button className="w-full mt-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:scale-[1.01] focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
-                  Browse Local Kitchens
-                </button>
+                <a href="/meals" className="w-full block text-center mt-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:scale-[1.01] focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                  Browse All Meals
+                </a>
               </div>
             </div>
           </div>
