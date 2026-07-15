@@ -59,7 +59,7 @@ const NewHeader: React.FC = ({ }) => {
   const middleLinks = [
     { name: 'Browse Meals', href: '/meals' },
     { name: 'How It Works', href: '/howitworks' },
-    { name: 'Find Chefs', href: '/aboutus' },
+    { name: 'About Us', href: '/aboutus' },
   ];
 
   const { data: user, isPending } = authClient.useSession();
