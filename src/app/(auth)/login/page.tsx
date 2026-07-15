@@ -86,7 +86,7 @@ export default function LoginPage() {
         </div>
 
         {/* Google Social Login */}
-        <button
+        {/* <button
           onClick={handleGoogleLogin}
           type="button"
           className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-700 rounded-xl text-sm font-medium text-gray-200 bg-[#1E293B] hover:bg-[#273549] transition-all mb-6"
@@ -98,15 +98,15 @@ export default function LoginPage() {
             <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.69-2.86c-1.12.75-2.54 1.19-4.27 1.19-3.22 0-6-2.38-6.94-5.64L1.24 15.64C3.14 19.62 7.21 23 12 23z" />
           </svg>
           <span>Continue with Google</span>
-        </button>
+        </button> */}
 
-        <div className="relative my-5">
+        {/* <div className="relative my-5">
           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-800"></div></div>
           <div className="relative flex justify-center text-sm"><span className="px-3 bg-[#151D30] text-gray-500">or</span></div>
-        </div>
+        </div> */}
         {/* auto fill some users */}
         <div className="flex justify-between mb-4 gap-2">
-          <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[2])}>Admin</button>
+          {/* <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[2])}>Admin</button> */}
           <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[1])}>chef</button>
           <button className="bg-orange-200 text-black rounded-md flex-1 p-1 cursor-pointer" onClick={() => setFormData(users[0])}>user</button>
         </div>
@@ -141,7 +141,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className={`w-full py-3 px-4 mt-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium hover:from-indigo-600 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/10 cursor-pointer
+            className={`w-full py-3 px-4 mt-2 rounded-xl bg-gradient-to-r from-emerald-500 to-indigo-600 text-white font-medium hover:from-emerald-600 hover:to-indigo-700 transition-all shadow-lg shadow-indigo-500/10 cursor-pointer
               ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {isLoading ? 'Signing In...' : 'Sign In'}

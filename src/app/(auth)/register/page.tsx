@@ -73,7 +73,7 @@ export default function SignupPage() {
                 </div>
 
                 {/* Google Social Login */}
-                <button
+                {/* <button
                     onClick={handleGoogleLogin}
                     disabled={isLoading}
                     type="button"
@@ -86,12 +86,12 @@ export default function SignupPage() {
                         <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.69-2.86c-1.12.75-2.54 1.19-4.27 1.19-3.22 0-6-2.38-6.94-5.64L1.24 15.64C3.14 19.62 7.21 23 12 23z" />
                     </svg>
                     <span>Continue with Google</span>
-                </button>
+                </button> */}
 
-                <div className="relative my-5">
+                {/* <div className="relative my-5">
                     <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-800"></div></div>
                     <div className="relative flex justify-center text-sm"><span className="px-3 bg-[#151D30] text-gray-500">or</span></div>
-                </div>
+                </div> */}
 
                 {/* Signup Form */}
                 <form className="space-y-4" onSubmit={handleSubmit}>
@@ -188,7 +188,7 @@ export default function SignupPage() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="cursor-pointer w-full flex items-center justify-center gap-2 py-3 px-4 mt-2 rounded-xl bg-linear-to-r from-indigo-500 to-purple-600 text-white font-medium hover:from-indigo-600 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/10 disabled:opacity-70 disabled:from-indigo-500 disabled:to-purple-600 ${
+                        className="cursor-pointer w-full flex items-center justify-center gap-2 py-3 px-4 mt-2 rounded-xl bg-linear-to-r from-emerald-500 to-indigo-500 text-white font-medium hover:from-emerald-600 hover:to-indigo-800 transition-all shadow-lg shadow-indigo-500/10 disabled:opacity-70 disabled:from-indigo-500 disabled:to-purple-600 ${
                             isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
                         }"
                     >
