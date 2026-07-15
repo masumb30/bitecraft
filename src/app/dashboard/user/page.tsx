@@ -11,7 +11,7 @@ export default async function BuyerDashboard() {
   });
   const user = session?.user;
 
-  const orders = await fetch(`http://localhost:3000/api/orders/user?userId=${user?.id}`, {
+  const orders = await fetch(`https://bitecraft-wleh.onrender.com/api/orders/user?userId=${user?.id}`, {
     next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
   });
   const ordersData = await orders.json();

@@ -17,7 +17,7 @@ interface PageProps {
 const getBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return 'http://localhost:3000';
+  return 'https://bitecraft-wleh.onrender.com';
 };
 
 export default async function ExplorePage({ searchParams }: PageProps) {
@@ -34,7 +34,7 @@ export default async function ExplorePage({ searchParams }: PageProps) {
   
   try {
     // Fetch direct from your API route with standard caching controls
-    const response = await fetch(`http://localhost:3000/api/meals`, {
+    const response = await fetch(`https://bitecraft-wleh.onrender.com/api/meals`, {
       next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
     });
   

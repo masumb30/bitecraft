@@ -15,7 +15,7 @@ export default async function MealDetailPage({ params }: { params: Promise<{ id:
     });
     const user = await userData?.user;
     const { id } = await params;
-    const data = await fetch(`http://localhost:3000/api/meals/${id}`, {
+    const data = await fetch(`https://bitecraft-wleh.onrender.com/api/meals/${id}`, {
         next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
     });
     const mealData: Meal = await data.json();

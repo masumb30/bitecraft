@@ -135,10 +135,10 @@ Create a `.env` file in the root of the project and populate it with the followi
 ```env
 # Better Auth Secrets
 BETTER_AUTH_SECRET=your_32_character_secret_key
-NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
+NEXT_PUBLIC_BETTER_AUTH_URL=https://bitecraft-wleh.onrender.com
 
 # API & Backend Endpoint references
-NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=https://bitecraft-wleh.onrender.com
 NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
 
 # Database Connection URI
@@ -161,7 +161,7 @@ Boot up the development server:
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your web browser.
+Open [https://bitecraft-wleh.onrender.com](https://bitecraft-wleh.onrender.com) in your web browser.
 
 ### 🧪 Fast Testing Credentials
 To make local evaluations quick, the Login Screen (`/login`) offers one-click autofill accounts with the default password `12345678`:
