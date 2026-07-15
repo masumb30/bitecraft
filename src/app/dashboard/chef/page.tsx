@@ -1,3 +1,6 @@
+import { OrderInterface } from '@/app/types/type';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 import React from 'react';
 
 type MetricCardProps = {
@@ -16,7 +19,20 @@ type OrderRowProps = {
   price: string;
 }
 
-export default function ChefDashboard({ user = { name: 'Marcus' } }) {
+export default async function ChefDashboard() {
+  const session = await auth.api.getSession({
+      headers: await headers()
+    });
+    const user = session?.user;
+  
+    const orders = await fetch(`http://localhost:3000/api/orders/chef?chefId=${user?.id}`, {
+      next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
+    });
+    const ordersData = await orders.json();
+  
+  
+  
+    console.log('Fetched Orders Data:', ordersData);
   return (
     <div className="min-h-screen bg-slate-50 text-slate-600 dark:bg-slate-950 dark:text-slate-400 transition-colors duration-200">
       
@@ -28,7 +44,7 @@ export default function ChefDashboard({ user = { name: 'Marcus' } }) {
         {/* WELCOME BANNER */}
         <div className="rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 dark:from-emerald-950 dark:to-slate-900 p-6 md:p-8 text-white shadow-sm">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-2">
-            Welcome back, Chef {user.name}! 👨‍🍳
+            Welcome back, Chef {user?.name}! 👨‍🍳
           </h1>
           <p className="text-emerald-100 dark:text-slate-400 max-w-xl text-sm md:text-base">
             Your kitchen is currently open. You have new orders waiting to be prepped today.
@@ -56,11 +72,57 @@ export default function ChefDashboard({ user = { name: 'Marcus' } }) {
                 </button>
               </div>
 
-              <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                <ChefOrderRow id="#1042" name="Organic Basil Pesto Pasta" user="Sarah K." status="Prep Mode" time="Pickup 5:00 PM" price="$24.00" />
-                <ChefOrderRow id="#1041" name="Slow-Braised Beef Barbacoa Bowl" user="Alex M." status="Pending" time="Pickup 5:30 PM" price="$38.50" />
-                <ChefOrderRow id="#1039" name="Artisanal Sourdough & Hummus" user="Elena R." status="Ready" time="Pickup 4:15 PM" price="$14.00" />
-              </div>
+              {
+                              ordersData.length > 0 ? (
+                                ordersData.map((order: OrderInterface) => (
+                                  <div key={(order as any)._id} className="p-4 bg-white border border-slate-200 rounded-2xl dark:bg-slate-900 dark:border-slate-800 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition-all duration-200 hover:scale-[1.01]">
+                                    <div className="flex gap-3 items-start sm:items-center w-full sm:w-auto">
+                                      <img
+                                        src={order.mealImage}
+                                        alt={order.title}
+                                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover flex-shrink-0"
+                                      />
+                                      <div className="space-y-1 min-w-0 flex-1">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                          <h3 className="font-bold text-slate-900 dark:text-slate-50 text-sm sm:text-base truncate max-w-[220px] sm:max-w-md">
+                                            {order.title}
+                                          </h3>
+                                          <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 capitalize">
+                                            {order.status}
+                                          </span>
+                                        </div>
+                                        <p className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1.5 truncate">
+                                          <img src={order.chefAvatar} alt="" className="w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-800" />
+                                          Kitchen: <span className="font-medium text-slate-600 dark:text-slate-400">{order.chefName}</span>
+                                        </p>
+                                        <p className="text-xs text-slate-500 line-clamp-1 sm:line-clamp-2 pr-2 hidden sm:block">
+                                          {order.mealDescription}
+                                        </p>
+                                        <p className="text-[10px] text-slate-400">
+                                          Ordered: {new Date(order.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                        </p>
+                                      </div>
+                                    </div>
+              
+                                    <div className="flex sm:flex-col justify-between sm:justify-center items-center sm:items-end w-full sm:w-auto pt-3 sm:pt-0 border-t border-slate-100 dark:border-slate-800 sm:border-t-0 font-semibold text-slate-900 dark:text-slate-50 text-sm sm:text-base gap-1 flex-shrink-0">
+                                      <span className="text-xs text-slate-400 font-normal sm:hidden">Total Price</span>
+                                      <div className="text-right">
+                                        <div>${order.totalPrice.toFixed(2)}</div>
+                                        <div className="text-[10px] text-slate-400 font-normal mt-0.5">Qty: {order.quantity} (${order.priceSnap} each)</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center dark:border-slate-800 dark:bg-slate-900">
+                              <span className="text-3xl block mb-3">🍽️</span>
+                              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-50">No orders found</h3>
+                              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto">
+                                Try modifying your price slider, text entries or choosing another neighborhood filter setup.
+                              </p>
+                            </div>
+                              )
+                            }
             </div>
           </div>
 
