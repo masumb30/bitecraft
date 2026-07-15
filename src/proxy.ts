@@ -49,7 +49,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
 }
 
+// export const config = {
+//     // Target all sub-routes of /dashboard and sub-routes of /properties
+//     matcher: ["/dashboard/:path*"], 
+// };
+
 export const config = {
-    // Target all sub-routes of /dashboard and sub-routes of /properties
-    matcher: ["/dashboard/:path*", "/properties/:path+"], 
-};
+  matcher: [
+    '/dashboard',
+    '/dashboard/((?!_next/static|_next/image|favicon.ico).*)*',
+  ],
+}

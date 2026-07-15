@@ -168,6 +168,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 }
 
+
 export async function POST(request: Request): Promise<NextResponse> {
   try {
     const db = await getDatabase();

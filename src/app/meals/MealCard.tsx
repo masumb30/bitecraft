@@ -28,7 +28,9 @@ export default function MealCard({ meal }: MealCardProps) {
         {/* Info Padding Block */}
         <div className="p-5">
           <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
-            <span className="font-medium truncate max-w-[120px]">By {meal.chef.name}</span>
+            {
+              meal?.chef?.name ? <span className="font-medium truncate max-w-[120px]">By {meal.chef.name}</span> : <span className="font-medium truncate max-w-[120px]"></span>
+            }
             <span className="flex items-center gap-0.5 text-amber-500 dark:text-amber-400">
               ★ <span className="font-semibold text-slate-700 dark:text-slate-300">{meal.rating}</span>
             </span>

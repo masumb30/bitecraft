@@ -1,5 +1,6 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect, useCallback } from 'react';
 
 // ----------------------------------------------------------------------
@@ -47,16 +48,21 @@ const classNames = (...classes: (string | boolean | undefined)[]) =>
 // ----------------------------------------------------------------------
 // HEADER COMPONENT
 // ----------------------------------------------------------------------
-const NewHeader: React.FC = ({}) => {
+const NewHeader: React.FC = ({ }) => {
+  const router = useRouter();
+  const handleLogOut = async()=> {
+    await authClient.signOut();
+    router.refresh();
+  }
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
+
   const middleLinks = [
-    { name: 'Browse Meals', href: 'meals' },
+    { name: 'Browse Meals', href: '/meals' },
     { name: 'Find Chefs', href: '#chefs' },
     { name: 'How It Works', href: '#how-it-works' },
   ];
 
-  const {data:user} = authClient.useSession();
+  const { data: user, isPending } = authClient.useSession();
   console.log("Session Data:", user);
   const [dropDown, setDropDown] = useState(false);
   const handleDropDown = () => {
@@ -134,93 +140,101 @@ const NewHeader: React.FC = ({}) => {
 
             {/* Right Section: Auth / User Controls */}
             <div className="hidden lg:flex lg:items-center lg:gap-4">
-              {user ? (
-                // ----- LOGGED IN STATE: Avatar + Name -----
-                <div onClick={handleDropDown} className="flex items-center gap-3  relative">
-                  <div className={`absolute top-full left-0 ${dropDown ? 'block ' : 'hidden'} w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg mt-2 z-50`}>
-                    <button onClick={() => authClient.signOut()} className="px-4 py-2 text-sm text-red-700 dark:text-red-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg w-full text-left cursor-pointer">
-                      Log out
-                    </button>
-                  </div>
 
-                  <button
-                    className={classNames(
-                      'flex items-center gap-2 rounded-xl p-1.5',
-                      'text-slate-700 dark:text-slate-300',
-                      'hover:bg-white dark:hover:bg-slate-800',
-                      transitionClasses,
-                      focusClasses
-                    )}
-                    aria-label="User menu"
-                  >
-                    {/* Avatar with fallback initials */}
-                    <div className="h-8 w-8 rounded-full bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
-                      {user?.user?.avatarUrl ? (
-                        <img
-                          src={user?.user?.avatarUrl}
-                          alt={user?.user?.name}
-                          className="h-8 w-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        user?.user?.name
-                          .split(' ')
-                          .map((n) => n[0])
-                          .join('')
-                          .toUpperCase()
-                          .slice(0, 2)
-                      )}
+              {
+                isPending ? <p>loading...</p>
+                  :
+                  user ? (
+                    // ----- LOGGED IN STATE: Avatar + Name -----
+                    <div onClick={handleDropDown} className="flex items-center gap-3  relative">
+                      <div className={`absolute top-full left-0 ${dropDown ? 'block ' : 'hidden'} w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg mt-2 z-50`}>
+                        <a href="/dashboard" className="block w-full px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg w-full text-left cursor-pointer">
+                          Dashboard
+                        </a>
+                        <button onClick={handleLogOut}className="px-4 py-2 text-sm text-red-700 dark:text-red-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg w-full text-left cursor-pointer">
+                          Log out
+                        </button>
+                      </div>
+
+                      <button
+                        className={classNames(
+                          'flex items-center gap-2 rounded-xl p-1.5',
+                          'text-slate-700 dark:text-slate-300',
+                          'hover:bg-white dark:hover:bg-slate-800',
+                          transitionClasses,
+                          focusClasses
+                        )}
+                        aria-label="User menu"
+                      >
+                        {/* Avatar with fallback initials */}
+                        <div className="h-8 w-8 rounded-full bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
+                          {user?.user?.avatarUrl ? (
+                            <img
+                              src={user?.user?.avatarUrl}
+                              alt={user?.user?.name}
+                              className="h-8 w-8 rounded-full object-cover"
+                            />
+                          ) : (
+                            user?.user?.name
+                              .split(' ')
+                              .map((n) => n[0])
+                              .join('')
+                              .toUpperCase()
+                              .slice(0, 2)
+                          )}
+                        </div>
+                        <span className="text-sm font-medium hidden xl:block">
+                          {user?.user?.name}
+                        </span>
+                        {/* Chevron Down Indicator */}
+                        <svg
+                          className="hidden xl:block h-4 w-4 text-slate-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
                     </div>
-                    <span className="text-sm font-medium hidden xl:block">
-                      {user?.user?.name}
-                    </span>
-                    {/* Chevron Down Indicator */}
-                    <svg
-                      className="hidden xl:block h-4 w-4 text-slate-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              ) : (
-                // ----- LOGGED OUT STATE: Login & Register Buttons -----
-                <div className="flex items-center gap-3">
-                  <a
-                    href="/login"
-                    className={classNames(
-                      'px-4 py-2 rounded-xl text-sm font-medium',
-                      'text-slate-700 dark:text-slate-300',
-                      'hover:text-emerald-600 dark:hover:text-emerald-500',
-                      'hover:bg-white dark:hover:bg-slate-800',
-                      transitionClasses,
-                      focusClasses
-                    )}
-                  >
-                    Log in
-                  </a>
-                  <a
-                    href="/register"
-                    className={classNames(
-                      'px-4 py-2 rounded-xl text-sm font-semibold',
-                      'bg-emerald-600 text-white',
-                      'dark:bg-emerald-500 dark:text-slate-900',
-                      'hover:brightness-110 hover:scale-[1.02]',
-                      'shadow-sm',
-                      transitionClasses,
-                      focusClasses
-                    )}
-                  >
-                    Sign up
-                  </a>
-                </div>
-              )}
+                  ) : (
+                    // ----- LOGGED OUT STATE: Login & Register Buttons -----
+                    <div className="flex items-center gap-3">
+                      <a
+                        href="/login"
+                        className={classNames(
+                          'px-4 py-2 rounded-xl text-sm font-medium',
+                          'text-slate-700 dark:text-slate-300',
+                          'hover:text-emerald-600 dark:hover:text-emerald-500',
+                          'hover:bg-white dark:hover:bg-slate-800',
+                          transitionClasses,
+                          focusClasses
+                        )}
+                      >
+                        Log in
+                      </a>
+                      <a
+                        href="/register"
+                        className={classNames(
+                          'px-4 py-2 rounded-xl text-sm font-semibold',
+                          'bg-emerald-600 text-white',
+                          'dark:bg-emerald-500 dark:text-slate-900',
+                          'hover:brightness-110 hover:scale-[1.02]',
+                          'shadow-sm',
+                          transitionClasses,
+                          focusClasses
+                        )}
+                      >
+                        Sign up
+                      </a>
+                    </div>
+                  )}
+
             </div>
 
             {/* Mobile & Tablet: Hamburger Button */}
@@ -324,7 +338,7 @@ const NewHeader: React.FC = ({}) => {
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* Conditional Profile Section */}
           {user ? (
-            <div className="flex items-center gap-4 rounded-2xl bg-slate-50 dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700">
+            <div onClick={() => { router.push('/dashboard'); setSidebarOpen(false) }} className=" cursor-pointer flex items-center gap-4 rounded-2xl bg-slate-50 dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700">
               <div className="h-12 w-12 rounded-full bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center text-white text-lg font-semibold shadow-sm flex-shrink-0">
                 {user?.user?.avatarUrl ? (
                   <img
@@ -418,7 +432,7 @@ const NewHeader: React.FC = ({}) => {
                     transitionClasses,
                     focusClasses
                   )}
-                  onClick={()=> authClient.signOut()}
+                  onClick={handleLogOut}
                 >
                   Log out
                 </button>

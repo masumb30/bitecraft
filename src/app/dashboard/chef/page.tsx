@@ -69,8 +69,8 @@ export default function ChefDashboard({ user = { name: 'Marcus' } }) {
             <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
               <h2 className="text-lg font-bold text-slate-900 dark:text-slate-50 mb-4">Kitchen Control</h2>
               <div className="space-y-3">
-                <ChefActionButton label="Add New Menu Item" icon="➕" variant="primary" />
-                <ChefActionButton label="Update Kitchen Hours" icon="🕒" variant="secondary" />
+                <ChefActionButton label="Add New Menu Item" icon="➕" variant="primary" link="/dashboard/chef/addmeal" />
+                <ChefActionButton label="My Meals" icon="🕒" variant="secondary" link="/dashboard/chef/mymeals" />
                 <ChefActionButton label="Payout to Bank" icon="🏦" variant="secondary" />
               </div>
             </div>
@@ -114,14 +114,14 @@ function ChefOrderRow({ id, name, user, status, time, price }: OrderRowProps) {
   );
 }
 
-function ChefActionButton({ label, icon, variant }: { label: string; icon: string; variant: 'primary' | 'secondary' }) {
+function ChefActionButton({ label, icon, variant, link = "#"}: { label: string; icon: string; variant: 'primary' | 'secondary', link?: string }) {
   const isPrimary = variant === 'primary';
   return (
-    <button className={`w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 hover:scale-[1.01] focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${
+    <a href={`${link}`} className={`w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 hover:scale-[1.01] focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${
       isPrimary ? 'bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 shadow-sm' : 'bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-50'
     }`}>
       <span>{icon}</span>
       <span>{label}</span>
-    </button>
+    </a>
   );
 }
