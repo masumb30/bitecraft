@@ -1,6 +1,11 @@
+'use client'
+import { authClient } from '@/lib/auth-client';
 import React from 'react';
 
-export default function BuyerDashboard({ user = { name: 'Sophia' } }) {
+export default function BuyerDashboard() {
+  const {data} = authClient.useSession();
+  const user = data?.user;
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-600 dark:bg-slate-950 dark:text-slate-400 transition-colors duration-200">
       
@@ -12,7 +17,7 @@ export default function BuyerDashboard({ user = { name: 'Sophia' } }) {
         {/* WELCOME BANNER */}
         <div className="rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 dark:from-emerald-950 dark:to-slate-900 p-6 md:p-8 text-white shadow-sm">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-2">
-            What are you craving, {user.name}? 👋
+            What are you craving, {user?.name}? 👋
           </h1>
           <p className="text-emerald-100 dark:text-slate-400 max-w-xl text-sm md:text-base">
             Discover fresh, premium, home-cooked meal preps curated by top local chefs in your community.
