@@ -63,7 +63,7 @@ export default async function ExplorePage({ searchParams }: PageProps) {
         {rawMeals.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {rawMeals.map((meal) => (
-              <MealCard key={meal._id} meal={meal} />
+              <MealCard key={(meal as any)._id} meal={meal} />
             ))}
           </div>
         ) : (

@@ -39,7 +39,7 @@ export default function ExploreControls({
     if (diet === 'All' || !diet) params.delete('diet');
     else params.set('diet', diet);
 
-    // Process Max Price (Defaults to 25)
+    // Process Max Price (Defaults to 100)
     if (Number(maxPrice) === 25) params.delete('maxPrice');
     else params.set('maxPrice', String(maxPrice));
 

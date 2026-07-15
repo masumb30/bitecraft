@@ -16,7 +16,7 @@ export default function MealCard({ meal }: MealCardProps) {
           <img
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             src={meal.image}
-            alt={meal.title}
+            alt={meal.name}
             loading="lazy"
           />
           {/* Floating Lifestyle Badge */}
@@ -37,7 +37,7 @@ export default function MealCard({ meal }: MealCardProps) {
           </div>
 
           <h3 className="mt-2 text-base font-bold leading-snug text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-slate-50 dark:group-hover:text-emerald-500 line-clamp-1">
-            {meal.title}
+            {(meal as any).title}
           </h3>
 
           <p className="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400 line-clamp-2">

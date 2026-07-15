@@ -63,6 +63,7 @@ const NewHeader: React.FC = ({ }) => {
   ];
 
   const { data: user, isPending } = authClient.useSession();
+  console.log('user from newheader:', user);
   
   const [dropDown, setDropDown] = useState(false);
   const handleDropDown = () => {
@@ -168,9 +169,9 @@ const NewHeader: React.FC = ({ }) => {
                       >
                         {/* Avatar with fallback initials */}
                         <div className="h-8 w-8 rounded-full bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
-                          {user?.user?.avatarUrl ? (
+                          {user?.user?.image ? (
                             <img
-                              src={user?.user?.avatarUrl}
+                              src={user?.user?.image}
                               alt={user?.user?.name}
                               className="h-8 w-8 rounded-full object-cover"
                             />
@@ -340,9 +341,9 @@ const NewHeader: React.FC = ({ }) => {
           {user ? (
             <div onClick={() => { router.push('/dashboard'); setSidebarOpen(false) }} className=" cursor-pointer flex items-center gap-4 rounded-2xl bg-slate-50 dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700">
               <div className="h-12 w-12 rounded-full bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center text-white text-lg font-semibold shadow-sm flex-shrink-0">
-                {user?.user?.avatarUrl ? (
+                {user?.user?.image ? (
                   <img
-                    src={user?.user?.avatarUrl}
+                    src={user?.user?.image}
                     alt={user?.user?.name}
                     className="h-12 w-12 rounded-full object-cover"
                   />

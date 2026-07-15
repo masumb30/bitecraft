@@ -27,7 +27,7 @@ export default async function ExplorePage({ searchParams }: PageProps) {
   const searchQuery = resolvedParams.search || '';
   const selectedDiet = resolvedParams.diet || 'All';
   const selectedNeighborhood = resolvedParams.neighborhood || 'All';
-  const maxPrice = resolvedParams.maxPrice ? Number(resolvedParams.maxPrice) : 25;
+  const maxPrice = resolvedParams.maxPrice ? Number(resolvedParams.maxPrice) : 100;
   const sortBy = resolvedParams.sortBy || 'delivery';
 
   let rawMeals: Meal[] = [];
@@ -49,7 +49,7 @@ export default async function ExplorePage({ searchParams }: PageProps) {
   const filteredMeals = rawMeals
     .filter((meal) => {
       const matchesSearch =
-        meal.title.toLowerCase().includes(searchQuery.toLowerCase());
+        (meal as any).title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesDiet = selectedDiet === 'All' || meal.dietaryTag === selectedDiet;
       const matchesLocation = selectedNeighborhood === 'All' || meal.neighborhood === selectedNeighborhood;
       const matchesPrice = meal.price <= maxPrice;
