@@ -63,7 +63,7 @@ const NewHeader: React.FC = ({ }) => {
   ];
 
   const { data: user, isPending } = authClient.useSession();
-  console.log("Session Data:", user);
+  
   const [dropDown, setDropDown] = useState(false);
   const handleDropDown = () => {
     setDropDown(!dropDown);

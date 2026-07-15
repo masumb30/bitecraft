@@ -77,6 +77,25 @@ export interface OrderDB {
   createdAt: Date;
 }
 
+export interface OrderInterface {
+  userId: string;
+  userName:string;
+  userAvatar:string;
+  mealId: string;
+  mealImage:string;
+  mealDescription:string;
+  title: string;
+  quantity: number;
+  priceSnap: number;
+  totalPrice: number;
+  status: 'pending';
+  deliveryAddress: string;
+  createdAt: Date;
+  chefId:string;
+  chefName:string;
+  chefAvatar:string;
+}
+
 /**
  * --- NEXT.JS UI RESPONSE POPULATED INTERFACES ---
  * Use these shapes when passing aggregated data arrays from your API 

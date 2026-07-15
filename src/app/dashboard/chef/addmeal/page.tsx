@@ -132,7 +132,7 @@ export default function CreateMealForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const chefId = (await authClient.getSession()).data?.user?.id;
-        console.log('Chef ID from Session:', chefId);
+        
         formData.chefId = chefId;
 
         if (!formData.title || !formData.description || !formData.image || formData.price <= 0) {
@@ -142,7 +142,6 @@ export default function CreateMealForm() {
 
         setLoading(true);
 
-        console.log('Submitting Meal Form Data:', formData);
 
         try {
             const response = await fetch('/api/meals', {
@@ -154,7 +153,6 @@ export default function CreateMealForm() {
             });
 
             if (!response.ok) {
-                console.log('Server Response:', await response.json());
                 throw new Error('Failed to list your creation. Please try again.');
             }
 

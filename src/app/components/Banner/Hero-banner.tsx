@@ -3,7 +3,7 @@ import FramerWrapper from './framer-wrapper';
 
 export default function HeroBanner() {
   return (
-    <section className="relative overflow-hidden bg-slate-50 py-12 transition-colors duration-200 dark:bg-slate-950 sm:py-16 lg:py-24">
+    <section className="relative overflow-hidden bg-slate-50 py-5 transition-colors duration-200 dark:bg-slate-950 max-h-auto md:max-h-[80vh]">
       {/* Background Decorative Amber/Green Blurs */}
       <div className="absolute -top-24 -left-20 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl dark:bg-emerald-500/5" />
       <div className="absolute top-1/2 right-0 h-80 w-80 rounded-full bg-amber-500/10 blur-3xl dark:bg-amber-400/5" />
@@ -12,7 +12,7 @@ export default function HeroBanner() {
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
           
           {/* Left Text Block */}
-          <div className="flex flex-col space-y-6 text-center lg:col-span-7 lg:text-left">
+          <div className="flex flex-col space-y-2 text-center lg:col-span-7 lg:text-left">
             
             {/* Tagline Badge */}
             <FramerWrapper delay={0.1}>
@@ -24,7 +24,7 @@ export default function HeroBanner() {
 
             {/* Main Headline */}
             <FramerWrapper delay={0.2}>
-              <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50 sm:text-5xl md:text-6xl lg:leading-[1.1]">
+              <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl md:text-4xl lg:leading-[1.1]">
                 Premium meal prep, <br className="hidden sm:inline" />
                 crafted by <span className="bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent dark:from-emerald-500 dark:to-emerald-400">Local Chefs</span>.
               </h1>
@@ -42,13 +42,13 @@ export default function HeroBanner() {
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
                 <a
                   href="/chefs"
-                  className="w-full rounded-xl bg-emerald-600 px-8 py-4 text-center text-base font-semibold text-white shadow-lg shadow-emerald-600/10 transition-all duration-200 hover:scale-[1.01] hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:bg-emerald-500 sm:w-auto"
+                  className="w-full rounded-xl bg-emerald-600 px-8 py-2 text-center text-base font-semibold text-white shadow-lg shadow-emerald-600/10 transition-all duration-200 hover:scale-[1.01] hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:bg-emerald-500 sm:w-auto"
                 >
                   Explore Local Chefs
                 </a>
                 <a
                   href="/plans"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-8 py-4 text-center text-base font-semibold text-slate-900 transition-all duration-200 hover:scale-[1.01] hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-50 dark:hover:bg-slate-800 sm:w-auto"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-8 py-2 text-center text-base font-semibold text-slate-900 transition-all duration-200 hover:scale-[1.01] hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-50 dark:hover:bg-slate-800 sm:w-auto"
                 >
                   View Meal Plans
                 </a>

@@ -40,7 +40,6 @@ export default async function ExplorePage({ searchParams }: PageProps) {
   
     if (response.ok) {
       rawMeals = await response.json();
-      console.log('rawMeals:', rawMeals);
     }
   } catch (error) {
     console.error("Failed to retrieve marketplace collections from server:", error);

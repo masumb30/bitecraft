@@ -2,6 +2,9 @@
 
 import React, { useState } from 'react';
 import { Meal } from '../types';
+import { authClient } from '@/lib/auth-client';
+import { OrderInterface } from '@/app/types/type';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface MealSidebarOrderProps {
   meal: Meal;
@@ -10,9 +13,66 @@ interface MealSidebarOrderProps {
 
 export default function MealSidebarOrder({ meal, timesSold = 428 }: MealSidebarOrderProps) {
   const [portions, setPortions] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const totalCost = meal.price * portions;
+  
+  const handlePlaceOrder = async () => {
+    setIsLoading(true);
+    try {
+      const session = await authClient.getSession();
+      const user = session?.data?.user;
+
+      console.log('user: ', user);
+      console.log('place order clicked: ', meal);
+
+      // Construct the object matching OrderInterface
+      const orderData: OrderInterface = {
+        userId: user?.id || '', 
+        userName: user?.name || '',
+        userAvatar: user?.image || '',
+        mealId: meal.id, 
+        mealImage: meal.image,
+        mealDescription: meal.description,
+        title: meal.name,
+        quantity: portions,
+        priceSnap: meal.price,
+        totalPrice: totalCost,
+        status: 'pending',
+        deliveryAddress: '',
+        createdAt: new Date(),
+        chefId: meal.chefId || '',     
+        chefName: meal.chefInfo.name || '', 
+        chefAvatar: meal.chefInfo.image || '' 
+      };
+
+      console.log('Order Payload Created:', orderData);
+
+      // Simple fetch request
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        toast.error('Failed to place the order.');
+        return;
+      }
+
+      toast.success('Order placed successfully! 🎉');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
+    <>
+      <ToastContainer autoClose={1500} style={{zIndex: 1000}} />
     <div className="sticky top-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-slate-900 space-y-6">
       
       {/* Popularity Metrics */}
@@ -35,14 +95,16 @@ export default function MealSidebarOrder({ meal, timesSold = 428 }: MealSidebarO
         <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-2 dark:border-slate-800 dark:bg-slate-950">
           <button
             onClick={() => setPortions(Math.max(1, portions - 1))}
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-white font-bold shadow-sm transition-colors hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-50"
+            disabled={isLoading}
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-white font-bold shadow-sm transition-colors hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-50 disabled:opacity-55"
           >
             -
           </button>
           <span className="text-sm font-extrabold text-slate-900 dark:text-slate-50">{portions}</span>
           <button
             onClick={() => setPortions(portions + 1)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-white font-bold shadow-sm transition-colors hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-50"
+            disabled={isLoading}
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-white font-bold shadow-sm transition-colors hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-50 disabled:opacity-55"
           >
             +
           </button>
@@ -57,10 +119,11 @@ export default function MealSidebarOrder({ meal, timesSold = 428 }: MealSidebarO
 
       {/* Action CTA */}
       <button
-        onClick={() => alert(`Added ${portions} portions to your order box.`)}
-        className="w-full rounded-xl bg-emerald-600 py-3 text-center text-sm font-bold text-white transition-all duration-200 hover:scale-[1.01] hover:brightness-110 dark:bg-emerald-500"
+        onClick={handlePlaceOrder}
+        disabled={isLoading}
+        className="w-full cursor-pointer rounded-xl bg-emerald-600 py-3 text-center text-sm font-bold text-white transition-all duration-200 hover:scale-[1.01] hover:brightness-110 dark:bg-emerald-500 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
       >
-        Add To Weekly Box
+        {isLoading ? 'Placing Order...' : 'Place an Order'}
       </button>
 
       {/* Fulfillment Promises */}
@@ -70,5 +133,7 @@ export default function MealSidebarOrder({ meal, timesSold = 428 }: MealSidebarO
       </div>
 
     </div>
+
+    </>
   );
 }

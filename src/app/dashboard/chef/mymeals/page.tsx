@@ -33,14 +33,12 @@ export default async function ExplorePage({ searchParams }: PageProps) {
     });
 
 
-    console.log('chefid from frontend: ', chefId.user.id)
     const response = await fetch(`http://localhost:3000/api/mealsbychef?chefId=${chefId?.user.id}`, {
       next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
     });
   
     if (response.ok) {
       rawMeals = await response.json();
-      console.log('rawMeals:', rawMeals);
     }
   } catch (error) {
     console.error("Failed to retrieve marketplace collections from server:", error);

@@ -23,7 +23,8 @@ export default async function MealDetailPage({ params }: { params: Promise<{ id:
         next: { revalidate: 0 }, // Adjust caching time strategy as needed (0 for live testing)
     });
     const mealData: Meal = await data.json();
-    console.log('meal details: ', mealData)
+
+    console.log('Fetched Meal Data:', mealData);
 
     if (!mealData) {
         notFound();

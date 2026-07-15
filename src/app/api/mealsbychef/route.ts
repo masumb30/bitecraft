@@ -3,15 +3,13 @@ import { ObjectId } from 'mongodb'; // Import this if your DB stores IDs as Obje
 import { getDatabase } from '@/lib/mongodb';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  console.log('GET request received at /api/mealsbychef');
+  
   try {
     const db = await getDatabase();
 
     // 1. Extract the specific chefId from the URL parameters
     const { searchParams } = new URL(request.url);
-    console.log('Search parameters:', searchParams.toString());
     const chefId = searchParams.get('chefId');
-    console.log('Received chefId:', chefId);
 
     if (!chefId) {
       return NextResponse.json(

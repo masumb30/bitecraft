@@ -16,7 +16,7 @@ export default function MealHero({ meal }: MealHeroProps) {
         <img
           className="h-full w-full object-cover"
           src={meal.image}
-          alt={meal.title}
+          alt={meal.name}
         />
         <span className="absolute top-4 left-4 rounded-lg bg-emerald-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white dark:bg-emerald-500">
           {meal.dietaryTag}
@@ -29,7 +29,7 @@ export default function MealHero({ meal }: MealHeroProps) {
           <span>Prepared by <span className="font-semibold text-slate-900 dark:text-slate-200">{meal.chefInfo.name}</span></span>
         </div>
         <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
-          {meal.title}
+          {meal.name}
         </h1>
       </div>
 

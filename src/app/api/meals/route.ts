@@ -4,71 +4,16 @@ import { getDatabase } from '@/lib/mongodb';
 import { MealDB, PopulatedMeal } from '@/app/types/type';
 import { ObjectId } from 'mongodb';
 
-// export async function GET(): Promise<NextResponse> {
-//   console.log('GET request received at /api/meals');
-//   try {
-//     const db = await getDatabase(); 
 
-//     // Use an aggregation pipeline to join the 'meals' collection with the 'chefs' collection
-//     const populatedMeals = await db.collection('meals').aggregate<PopulatedMeal>([
-//       {
-//         // 1. Join with the chefs collection
-//         $lookup: {
-//           from: 'chefs',
-//           localField: 'chefId',
-//           foreignField: '_id',
-//           as: 'chefDetails'
-//         }
-//       },
-//       {
-//         // 2. Deconstruct the array returned by $lookup into a single object
-//         $unwind: '$chefDetails'
-//       },
-//       {
-//         // 3. Project the final structure to perfectly match the PopulatedMeal interface
-//         $project: {
-//           _id: 0, // Exclude the raw ObjectId
-//           id: { $toString: '$_id' }, // Convert the database _id into a string "id"
-//           title: 1,
-//           description: 1,
-//           price: 1,
-//           rating: 1,
-//           dietaryTag: 1,
-//           deliveryDaysFromNow: 1,
-//           image: 1,
-//           createdAt: 1,
-//           // Shape the nested chef object expected by your frontend
-//           chef: {
-//             id: { $toString: '$chefDetails._id' },
-//             name: '$chefDetails.name',
-//             avatar: '$chefDetails.avatar',
-//             neighborhood: '$chefDetails.neighborhood'
-//           }
-//         }
-//       }
-//     ]).toArray();
-
-//     // return NextResponse.json({ success: true, data: populatedMeals }, { status: 200 });
-//     return NextResponse.json(populatedMeals, { status: 200 });
-//   } catch (error) {
-//     const errorMessage = error instanceof Error ? error.message : 'Unknown database error';
-//     console.error('Database fetch error:', errorMessage);
-
-//     return NextResponse.json(
-//       { success: false, error: 'Database error' }, 
-//       { status: 500 }
-//     );
-//   }
-// }
 
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  console.log('GET request received at /api/meals');
+  
   try {
     const db = await getDatabase();
 
     const all = await db.collection('meals').find({}).toArray();
-    console.log('All meals fetched from database:', all);
+    
 
     // Extract query parameters from the request URL
     const { searchParams } = new URL(request.url);
@@ -148,7 +93,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       }
     });
 
-    console.log('Constructed aggregation pipeline:', JSON.stringify(pipeline, null, 2));
+    
 
     // Execute the unified pipeline query
     const populatedMeals = await db

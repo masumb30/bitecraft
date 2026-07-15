@@ -35,12 +35,12 @@ export async function GET(
 
     // 4. Combine everything into your final response object
     const mealDetails = {
-      id: meal.id,
+      id: meal._id,
       image: meal.image,
       description: meal.description,
       dietaryTag: meal.dietaryTag,
       deliveryDaysFromNow: meal.deliveryDaysFromNow,
-      name: meal.name,
+      name: meal.title,
       price: meal.price,
       chefId: meal.chefId,
       chefInfo: chefInfo, // Added chef info
